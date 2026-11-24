@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.grayscale" path="/org/gnome/shell/extensions/grayscale/">
+    <key name="enabled" type="b">
+      <default>false</default>
+      <summary>Whether the grayscale filter is on</summary>
+    </key>
+    <key name="toggle-shortcut" type="as">
+      <default><![CDATA[['<Super><Alt>g']]]></default>
+      <summary>Shortcut to toggle grayscale</summary>
+    </key>
+  </schema>
+</schemalist>
