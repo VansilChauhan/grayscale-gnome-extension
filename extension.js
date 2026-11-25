@@ -25,6 +25,13 @@ uniform float mode;
 float rand(vec2 p) {
     return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
 }
+float vnoise(vec2 p) {
+    vec2 i = floor(p);
+    vec2 f = fract(p);
+    f = f * f * (3.0 - 2.0 * f);
+    return mix(mix(rand(i), rand(i + vec2(1.0, 0.0)), f.x),
+               mix(rand(i + vec2(0.0, 1.0)), rand(i + vec2(1.0, 1.0)), f.x), f.y);
+}
 `;
 
 // Runs after the default texture lookup; cogl_color_out is premultiplied.
@@ -36,13 +43,19 @@ float l = dot(c, vec3(0.2126, 0.7152, 0.0722));
 if (mode < 0.5) {
     c = vec3(l);
 } else if (mode < 1.5) {
-    // Paper: mostly desaturated, warm off-white paper and deep warm ink
-    // instead of pure white/black, plus a faint static grain. The curve
-    // pushes midtones down so text and images stay inky, not washed out.
+    // Paper: mostly desaturated, cream paper and brown-black ink instead of
+    // pure white/black. The curve pushes midtones down so text stays inky.
     c = mix(c, vec3(l), 0.85);
     c = pow(c, vec3(1.3));
-    c = mix(vec3(0.06, 0.055, 0.05), vec3(0.95, 0.92, 0.85), c);
-    c += (rand(floor(gl_FragCoord.xy)) - 0.5) * 0.04;
+    c = mix(vec3(0.08, 0.06, 0.045), vec3(0.94, 0.90, 0.80), c);
+
+    // Static paper texture: soft blotches + horizontal fibers + fine tooth.
+    // Strongest on light areas, since ink covers the paper's texture.
+    vec2 fc = gl_FragCoord.xy;
+    float tex = vnoise(fc / 3.0) * 0.45
+              + vnoise(fc * vec2(0.07, 0.5)) * 0.35
+              + rand(floor(fc)) * 0.2;
+    c += (tex - 0.5) * 0.06 * mix(0.3, 1.0, dot(c, vec3(0.333)));
 } else if (mode < 2.5) {
     // Invert brightness but keep hue, so colors stay recognizable.
     c = clamp(c + vec3(1.0 - 2.0 * l), 0.0, 1.0);
