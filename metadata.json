@@ -1,7 +1,7 @@
 {
   "uuid": "grayscale@vanshil",
   "name": "Grayscale",
-  "description": "Turn the whole screen grayscale. Toggle from Quick Settings or with Super+Alt+G.",
+  "description": "Screen filters: grayscale, paper (warm, soft, e-ink-like), inverted and night red. Toggle from Quick Settings or with Super+Alt+G.",
   "shell-version": ["50"],
   "settings-schema": "org.gnome.shell.extensions.grayscale"
 }

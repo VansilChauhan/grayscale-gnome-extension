@@ -5,6 +5,16 @@
       <default>false</default>
       <summary>Whether the grayscale filter is on</summary>
     </key>
+    <key name="filter" type="s">
+      <choices>
+        <choice value="grayscale"/>
+        <choice value="paper"/>
+        <choice value="invert"/>
+        <choice value="red"/>
+      </choices>
+      <default>'grayscale'</default>
+      <summary>Which screen filter to apply</summary>
+    </key>
     <key name="toggle-shortcut" type="as">
       <default><![CDATA[['<Super><Alt>g']]]></default>
       <summary>Shortcut to toggle grayscale</summary>
